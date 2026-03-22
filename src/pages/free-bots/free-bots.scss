@@ -78,11 +78,29 @@
         transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
+        cursor: pointer;
+        outline: none;
+        user-select: none;
 
-        &:hover {
+        &:hover,
+        &:focus-visible {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgb(0 0 0 / 12%);
+            box-shadow: 0 8px 30px rgb(0 0 0 / 15%);
             border-color: var(--brand-red-coral);
+
+            .free-bots__card-btn {
+                background: linear-gradient(135deg, #e8342a 0%, #ff4f4f 100%);
+                box-shadow: 0 4px 16px rgb(255 68 68 / 35%);
+
+                svg {
+                    transform: translateX(4px);
+                }
+            }
+        }
+
+        &--loading {
+            opacity: 0.8;
+            pointer-events: none;
         }
     }
 
@@ -136,25 +154,11 @@
         border-radius: 8px;
         font-size: 14px;
         font-weight: 600;
-        cursor: pointer;
         transition: all 0.2s ease;
-
-        &:hover:not(:disabled) {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgb(255 68 68 / 30%);
-        }
-
-        &:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+        margin-top: auto;
 
         svg {
             transition: transform 0.2s ease;
-        }
-
-        &:hover:not(:disabled) svg {
-            transform: translateX(4px);
         }
     }
 

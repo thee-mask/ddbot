@@ -15,6 +15,22 @@ interface Bot {
 
 const BOTS: Bot[] = [
     {
+        id: '13',
+        name: 'Dollar Printer Bot',
+        description: 'Print profits with this powerful over/under digit bot using smart stake recovery and target profit management on Volatility 100.',
+        fileName: 'DollarPrinterBot_1774190773973.xml',
+        category: 'Digits',
+        icon: '💵',
+    },
+    {
+        id: '14',
+        name: 'Auto C4 Volt AI Premium',
+        description: 'Premium AI robot with advanced trend analysis, dual prediction system, and automatic stop loss / take profit management. Built for both beginners and professionals.',
+        fileName: 'AUTO_C4_VOLT_AI_PREMIUM_ROBOT_1774190781603.xml',
+        category: 'AI Trading',
+        icon: '🤖',
+    },
+    {
         id: '1',
         name: 'Expert Speed Bot',
         description: 'Advanced speed trading bot with optimized entry and exit points for quick trades.',
@@ -113,9 +129,13 @@ const BOTS: Bot[] = [
 ];
 
 const FreeBots = observer(() => {
-    const { dashboard } = useStore();
+    const store = useStore();
     const [loadingBotId, setLoadingBotId] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+    if (!store) return null;
+
+    const { dashboard } = store;
 
     const categories = ['All', ...Array.from(new Set(BOTS.map(bot => bot.category)))];
 
@@ -177,18 +197,21 @@ const FreeBots = observer(() => {
 
             <div className='free-bots__grid'>
                 {filteredBots.map(bot => (
-                    <div key={bot.id} className='free-bots__card'>
+                    <div
+                        key={bot.id}
+                        className={`free-bots__card ${loadingBotId === bot.id ? 'free-bots__card--loading' : ''}`}
+                        onClick={() => loadBot(bot)}
+                        role='button'
+                        tabIndex={0}
+                        onKeyDown={e => e.key === 'Enter' && loadBot(bot)}
+                    >
                         <div className='free-bots__card-header'>
                             <span className='free-bots__card-icon'>{bot.icon}</span>
                             <span className='free-bots__card-category'>{bot.category}</span>
                         </div>
                         <h3 className='free-bots__card-title'>{bot.name}</h3>
                         <p className='free-bots__card-description'>{bot.description}</p>
-                        <button
-                            className='free-bots__card-btn'
-                            onClick={() => loadBot(bot)}
-                            disabled={loadingBotId === bot.id}
-                        >
+                        <div className='free-bots__card-btn'>
                             {loadingBotId === bot.id ? (
                                 <span className='free-bots__card-btn-loading'>Loading...</span>
                             ) : (
@@ -199,7 +222,7 @@ const FreeBots = observer(() => {
                                     </svg>
                                 </>
                             )}
-                        </button>
+                        </div>
                     </div>
                 ))}
             </div>
