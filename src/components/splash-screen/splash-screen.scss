@@ -1,0 +1,61 @@
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.7s ease;
+
+    &--fading {
+        opacity: 0;
+    }
+
+    &__card {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 0 60px rgb(0 100 255 / 30%), 0 0 120px rgb(0 60 200 / 15%);
+        border: 2px solid rgb(0 120 255 / 40%);
+    }
+
+    &__image {
+        width: min(480px, 88vw);
+        height: min(480px, 88vw);
+        object-fit: cover;
+        display: block;
+    }
+
+    &__name {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px 24px;
+        font-size: clamp(26px, 6vw, 38px);
+        font-weight: 800;
+        color: #1e90ff;
+        text-align: center;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-shadow:
+            0 0 10px #1e90ff,
+            0 0 24px #1e90ff,
+            0 0 48px rgb(30 144 255 / 60%);
+        background: linear-gradient(to top, rgb(0 0 0 / 85%) 0%, rgb(0 0 0 / 0%) 100%);
+    }
+
+    &__hint {
+        margin-top: 24px;
+        font-size: 13px;
+        color: rgb(255 255 255 / 40%);
+        letter-spacing: 1px;
+    }
+}
