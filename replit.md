@@ -1,92 +1,41 @@
-# Deriv Bot
+# Deriv Bot (DBot)
 
-## Overview
+A web-based automated trading platform built with React that allows users to create and run trading bots without writing code. It uses a visual programming interface powered by Blockly.
 
-Deriv Bot is a web-based automated trading platform that allows users to create trading bots without coding. The application uses a visual block-based programming interface (powered by Blockly) to let users design trading strategies. Users can build bots from scratch, use quick strategies, or import existing bot configurations. The platform supports both demo and real trading accounts through the Deriv trading API.
+## Architecture
 
-## User Preferences
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Rsbuild (v1.0.1-beta.1) backed by Rspack
+- **State Management**: MobX + MobX-React-Lite
+- **Visual Programming**: Blockly v10
+- **Trading API**: @deriv/deriv-api
+- **Styling**: Sass (SCSS)
+- **Routing**: react-router-dom v6
 
-Preferred communication style: Simple, everyday language.
+## Project Structure
 
-## System Architecture
+- `src/app/` - Core application, routing, global providers
+- `src/pages/` - Main views: bot-builder, dashboard, chart, tutorials, free-bots
+- `src/components/` - Reusable UI components
+- `src/stores/` - MobX state stores (root-store pattern)
+- `src/external/bot-skeleton/` - Trading engine + Blockly integration
+- `public/` - Static assets, PWA manifest, bot XML templates
 
-### Frontend Framework
-- **React 18** with TypeScript as the primary UI framework
-- **MobX** for state management across the application
-- Stores are organized in `src/stores/` with a root store pattern that aggregates domain-specific stores (client, dashboard, chart, run-panel, etc.)
+## Development
 
-### Build System
-- **Rsbuild** as the primary build tool (modern, fast bundler)
-- Webpack configuration available as fallback
-- Babel for transpilation with support for decorators and class properties
+- **Start**: `npm start` (runs `./node_modules/.bin/rsbuild dev`)
+- **Build**: `npm run build`
+- **Port**: 5000
 
-### Visual Programming
-- **Blockly** library for the drag-and-drop bot building interface
-- Custom blocks and toolbox configurations for trading-specific operations
-- Workspace serialization for saving/loading bot strategies
+## Replit Configuration
 
-### Trading Integration
-- **@deriv/deriv-api** for WebSocket-based communication with Deriv trading servers
-- Real-time market data streaming and order execution
-- Support for multiple account types (demo, real, wallet-based)
+- The `npm start` script uses a direct path `./node_modules/.bin/rsbuild dev` because the workflow shell doesn't automatically add `node_modules/.bin` to PATH
+- The `prepare` (husky) script was removed to prevent issues during `npm install`
+- Rsbuild is pinned to `1.0.1-beta.1` to use a compatible version of the rspack native binding (`1.0.0-alpha.3`) that works on this Replit environment
+- Icon stubs were created for missing icons in `@deriv/quill-icons` v2.4.10 (the index file references files not included in that version)
+- `HUSKY=0` environment variable prevents the husky git hooks from running during installs
 
-### Authentication
-- OAuth2-based authentication flow with OIDC support
-- Token Management Backend (TMB) integration for enhanced session handling
-- Multi-account support with account switching capabilities
+## Known Warnings
 
-### Charting
-- **@deriv/deriv-charts** for displaying market data and trade visualizations
-- Real-time chart updates during bot execution
-
-### PWA Support
-- Service worker for offline capabilities
-- Installable as a Progressive Web App on mobile devices
-- Offline fallback page
-
-### Internationalization
-- **@deriv-com/translations** for multi-language support
-- CDN-based translation loading with Crowdin integration
-
-### Analytics & Monitoring
-- **RudderStack** for event tracking and analytics
-- **Datadog** for session replay and performance monitoring
-- **TrackJS** for error tracking in production
-
-## External Dependencies
-
-### Deriv Ecosystem Packages
-- `@deriv-com/auth-client` - Authentication client
-- `@deriv-com/analytics` - Analytics integration
-- `@deriv-com/quill-ui` / `@deriv-com/quill-ui-next` - UI component library
-- `@deriv-com/translations` - Internationalization
-- `@deriv/deriv-api` - Trading API client
-- `@deriv/deriv-charts` - Charting library
-
-### Cloud Services
-- **Cloudflare Pages** - Deployment platform
-- **Google Drive API** - Bot strategy storage and sync
-- **LiveChat** - Customer support integration
-- **Intercom** - In-app messaging (feature-flagged)
-- **GrowthBook** - Feature flag management
-- **Survicate** - User surveys
-
-### Third-Party Libraries
-- `blockly` - Visual programming blocks
-- `mobx` / `mobx-react-lite` - State management
-- `react-router-dom` - Client-side routing
-- `formik` - Form handling
-- `@tanstack/react-query` - Server state management
-- `js-cookie` - Cookie management
-- `localforage` - Client-side storage
-- `lz-string` / `pako` - Compression utilities
-
-## Recent Changes
-
-### Free Bots Feature (December 2025)
-- Added Free Bots page with 12 pre-built trading bot templates
-- Bot cards display with category filtering (Speed Trading, AI Trading, Pattern Analysis, etc.)
-- Click-to-load functionality that imports bot XML into Bot Builder
-- Responsive card design with hover effects and loading states
-- Bot XML files stored in `/public/bots/` directory
-- Files: `src/pages/free-bots/index.tsx`, `src/pages/free-bots/free-bots.scss`
+- Sass deprecation warnings in `wallet.scss` (non-breaking, related to `if()` function syntax)
+- Engine warning for `@deriv-com/analytics` (requires Node 18.x, running on Node 20.x — no functional impact)
